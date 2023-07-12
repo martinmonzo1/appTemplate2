@@ -1,6 +1,8 @@
-import 'package:app_template/view_model/home_view_model.dart';
+import 'package:app_template/view_model/album_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../model/class/album.dart';
 
 class Home extends StatefulWidget {
 
@@ -14,37 +16,31 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  void _incrementCounter() {
-    context.read<HomeViewModel>().incrementCounter();
+  @override
+  void initState() {
+    super.initState();
+    context.read<AlbumViewModel>().getAlbum();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final int counter = context.watch<HomeViewModel>().counter;
+    final Album? album = context.watch<AlbumViewModel>().album;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return MaterialApp(
+      title: 'Fetch Data Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Fetch Data Example'),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        body: Center(
+          child: (album != null)
+            ? Text(album.title)
+            : const CircularProgressIndicator(),
+        ),
       ),
     );
   }

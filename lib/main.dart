@@ -1,13 +1,18 @@
 import 'package:app_template/view/home/home_view.dart';
-import 'package:app_template/view_model/home_view_model.dart';
+import 'package:app_template/view_model/album_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './model/data_source/album_data_source.dart';
+import './model/repository/album_repository.dart';
 
 void main() {
+  final albumDataSource = ApiAlbumDataSource();
+  final albumRepository = AlbumRepository(albumDataSource: albumDataSource);
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<HomeViewModel>(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider<AlbumViewModel>(create: (_) => AlbumViewModel(albumRepository: albumRepository)),
       ],
       child: const MyApp(),
     ),
