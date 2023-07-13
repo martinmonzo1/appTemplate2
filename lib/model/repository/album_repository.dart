@@ -9,6 +9,6 @@ class AlbumRepository {
   AlbumRepository({required this.albumDataSource});
 
   Future<Album> getAlbum(http.Client client) {
-    return albumDataSource.getAlbum(client);
+    return albumDataSource.get(client);
   }
 }
